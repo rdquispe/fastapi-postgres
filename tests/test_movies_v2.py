@@ -13,7 +13,7 @@ changed_movie_description = "From the other side"
 class MoviesV2:
 
     @pytest.fixture
-    def test_create_movie(request):
+    def test_create_movie(self):
         """This fixture will only be available within the scope of TestGroup"""
         response = client.post(
             "/movies/create",
@@ -22,4 +22,4 @@ class MoviesV2:
         assert response.status_code == status.HTTP_201_CREATED
         assert response.json()["title"] == "Hello"
         assert response.json()["description"] == "World"
-        request.config.cache.set("movie_id", response.json()["id"])
+        self.config.cache.set("movie_id", response.json()["id"])

@@ -39,3 +39,9 @@ pipenv shell
 ```sh
 uvicorn main:app --reload  
 ```
+
+### Docker
+
+```
+docker-compose -f docker-compose-local.yml up && docker-compose rm -fsv
+```
