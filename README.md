@@ -45,3 +45,9 @@ uvicorn main:app --reload
 ```
 docker-compose -f docker-compose-local.yml up && docker-compose rm -fsv
 ```
+
+### Docs
+
+```
+http://127.0.0.1:8000/docs
+```
