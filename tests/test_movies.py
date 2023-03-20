@@ -14,7 +14,7 @@ changed_movie_description = "From the other side"
 @pytest.mark.dependency()
 def test_create_movie(request):
     response = client.post(
-        "/movies/create",
+        "/v1/movies/",
         json={"title": initial_movie_title, "description": initial_movie_description},
     )
     assert response.status_code == status.HTTP_201_CREATED
@@ -25,7 +25,7 @@ def test_create_movie(request):
 
 @pytest.mark.dependency(depends=["test_create_movie"])
 def test_get_all_movies():
-    response = client.get("/movies/list/all")
+    response = client.get("/v1/movies/")
     assert response.status_code == status.HTTP_200_OK
     assert response.json() is not None
 
@@ -33,7 +33,7 @@ def test_get_all_movies():
 @pytest.mark.dependency(depends=["test_create_movie"])
 def test_get_one_movie(request):
     movie_id = request.config.cache.get("movie_id", None)
-    response = client.get(f"/movies/get/{movie_id}")
+    response = client.get(f"/v1/movies/{movie_id}")
     assert response.status_code == status.HTTP_200_OK
     assert response.json()["id"] == movie_id
     assert response.json()["title"] == initial_movie_title
@@ -47,7 +47,7 @@ def test_get_one_movie(request):
 def test_patch_movie(request):
     movie_id = request.config.cache.get("movie_id", None)
     response = client.patch(
-        "/movies/update",
+        "/v1/movies/",
         json={
             "id": movie_id,
             "title": initial_movie_title,
@@ -70,6 +70,6 @@ def test_patch_movie(request):
 )
 def test_delete_movie(request):
     movie_id = request.config.cache.get("movie_id", None)
-    response = client.delete(f"/movies/delete/{movie_id}")
+    response = client.delete(f"/v1/movies/{movie_id}")
     assert response.status_code == status.HTTP_200_OK
     assert response.json()["detail"] == "Movie Deleted"
