@@ -16,9 +16,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(router=movies_router, prefix="/movies")
+app.include_router(router=movies_router, prefix="/v1/movies")
 
 
-@app.get("/", response_model=HealthResponse)
+@app.get("/v1/health", response_model=HealthResponse)
 async def health():
-    return HealthResponse(status="Ok")
+    return HealthResponse(status="up")
+

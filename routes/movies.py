@@ -16,22 +16,22 @@ from services.movies import (
 movies_router = APIRouter(tags=["movies"])
 
 
-@movies_router.post("/create", status_code=status.HTTP_201_CREATED, response_model=Movie)
+@movies_router.post("/", status_code=status.HTTP_201_CREATED, response_model=Movie)
 def create_movie(movie: Movie, db: Session = Depends(get_db)):
     return movie_create(db=db, movie=movie)
 
 
-@movies_router.get("/list/all", status_code=status.HTTP_200_OK, response_model=List[Movie])
+@movies_router.get("/", status_code=status.HTTP_200_OK, response_model=List[Movie])
 def get_all_movies(db: Session = Depends(get_db)):
     return movies_get_all(db=db)
 
 
-@movies_router.get("/get/{id}", status_code=status.HTTP_200_OK, response_model=Movie)
+@movies_router.get("/{id}", status_code=status.HTTP_200_OK, response_model=Movie)
 def get_one_movie(id, db: Session = Depends(get_db)):
     return movie_get_one(db=db, id=id)
 
 
-@movies_router.delete("/delete/{id}", status_code=status.HTTP_200_OK, response_model=DeleteMovieResponse)
+@movies_router.delete("/{id}", status_code=status.HTTP_200_OK, response_model=DeleteMovieResponse)
 def delete_movie(id, db: Session = Depends(get_db)):
     delete_status = movie_delete(db=db, id=id)
     if delete_status.detail == "Doesnt Exist":
@@ -40,6 +40,6 @@ def delete_movie(id, db: Session = Depends(get_db)):
         return delete_status
 
 
-@movies_router.patch("/update", status_code=status.HTTP_200_OK, response_model=Movie)
+@movies_router.patch("/", status_code=status.HTTP_200_OK, response_model=Movie)
 def update_movie(movie: UpdateMovie, db: Session = Depends(get_db)):
     return movie_update(db=db, movie=movie)
